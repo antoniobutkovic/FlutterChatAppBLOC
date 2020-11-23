@@ -1,34 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/RoundedButton.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends StatelessWidget {
   static const String id = 'welcome_screen';
-
-  @override
-  _AuthScreenState createState() => _AuthScreenState();
-}
-
-class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MaterialButton(
-              child: Text('Test button 1'),
-              color: Colors.blueAccent,
-            ),
-            MaterialButton(
-              child: Text('Test button 1'),
-              color: Colors.blueAccent,
-            ),
-            MaterialButton(
-              child: Text('Test button 2'),
-              color: Colors.blueAccent,
-            ),
+            RoundedButton(
+                title: 'Login',
+                color: Colors.blueAccent,
+                onPressed: navigateToLoginScreen()),
+            RoundedButton(
+                title: 'Register',
+                color: Colors.redAccent,
+                onPressed: navigateToRegisterScreen())
           ],
         ),
       ),
     );
   }
+
+  navigateToLoginScreen() {}
+
+  navigateToRegisterScreen() {}
 }
