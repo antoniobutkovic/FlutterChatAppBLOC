@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/LoginScreen.dart';
-import 'package:flutter_chat_app/RegistrationScreen.dart';
+import 'package:flutter_chat_app/auth/LoginScreen.dart';
+import 'package:flutter_chat_app/auth/RegistrationScreen.dart';
 
-import 'SplashScreen.dart';
-import 'AuthScreen.dart';
+import 'splash/SplashScreen.dart';
+import 'auth/AuthScreen.dart';
 
 void main() => runApp(ChatApp());
 

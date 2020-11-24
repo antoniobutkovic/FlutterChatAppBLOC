@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/RoundedButton.dart';
+import 'package:flutter_chat_app/widgets/RoundedButton.dart';
 
 import 'LoginScreen.dart';
 import 'RegistrationScreen.dart';
