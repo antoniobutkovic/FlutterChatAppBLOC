@@ -39,6 +39,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               },
               keyboardType: TextInputType.visiblePassword,
               color: Colors.redAccent,
+              isObscured: true,
             ),
             RoundedButton(
                 title: 'Register',

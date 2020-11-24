@@ -39,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               keyboardType: TextInputType.visiblePassword,
               color: Colors.blueAccent,
+              isObscured: true,
             ),
             RoundedButton(
                 title: 'Login',

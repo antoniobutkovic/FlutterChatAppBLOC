@@ -19,8 +19,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('ChatApp!'),
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'ChatApp!',
+          style: Theme.of(context).textTheme.headline3,
+        ),
+      ),
     );
   }
 
