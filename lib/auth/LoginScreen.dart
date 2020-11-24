@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 email = value;
               },
               keyboardType: TextInputType.emailAddress,
+              color: Colors.blueAccent,
             ),
             SizedBox(
               height: 8.0,
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 password = value;
               },
               keyboardType: TextInputType.visiblePassword,
+              color: Colors.blueAccent,
             ),
             RoundedButton(
                 title: 'Login',
