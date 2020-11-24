@@ -31,10 +31,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   startTimer() async {
     var _duration = new Duration(seconds: 2);
-    return new Timer(_duration, navigateToTheAuthScreen);
+    return new Timer(_duration, _navigateToTheAuthScreen);
   }
 
-  void navigateToTheAuthScreen() {
+  _navigateToTheAuthScreen() {
     Navigator.of(context).pushReplacementNamed(AuthScreen.id);
   }
 }

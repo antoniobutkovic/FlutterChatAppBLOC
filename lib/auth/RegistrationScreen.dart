@@ -44,14 +44,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedButton(
                 title: 'Register',
                 color: Colors.redAccent,
-                onPressed: () => registerUser(email, password)),
+                onPressed: () => _registerUser(email, password)),
           ],
         ),
       ),
     );
   }
 
-  registerUser(String email, String password) {
+  _registerUser(String email, String password) {
     print(email + password);
   }
 }

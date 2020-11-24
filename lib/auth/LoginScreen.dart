@@ -44,14 +44,14 @@ class _LoginScreenState extends State<LoginScreen> {
             RoundedButton(
                 title: 'Login',
                 color: Colors.blueAccent,
-                onPressed: () => loginUser(email, password)),
+                onPressed: () => _loginUser(email, password)),
           ],
         ),
       ),
     );
   }
 
-  loginUser(String email, String password) {
+  _loginUser(String email, String password) {
     print(email + password);
   }
 }
