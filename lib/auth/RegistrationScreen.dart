@@ -15,6 +15,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
