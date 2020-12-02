@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/auth/AuthRepository.dart';
+import 'package:flutter_chat_app/auth/AuthService.dart';
+import 'package:flutter_chat_app/auth/AuthBloc.dart';
 import 'package:flutter_chat_app/widgets/RoundedButton.dart';
 import 'package:flutter_chat_app/widgets/RoundedInputField.dart';
+import 'package:provider/provider.dart';
+
+class LoginScreenDI extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ProxyProvider2<AuthRepository, AuthService, AuthBloc>(
+      update: (dynamic context, AuthRepository repository, AuthService service,
+              AuthBloc previous) =>
+          previous ?? AuthBloc(repository, service),
+      dispose: (dynamic context, AuthBloc bloc) => bloc.dispose(),
+      child: LoginScreen(),
+    );
+  }
+}
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -11,6 +28,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String email;
   String password;
+  AuthBloc _authBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _authBloc = Provider.of(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _loginUser(String email, String password) {
-    print(email + password);
+    _authBloc.login(email, password);
   }
 }
