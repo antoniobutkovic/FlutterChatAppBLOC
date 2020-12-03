@@ -8,6 +8,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future login(String email, String password) async {
+    print("repo $email and $password");
     return service.login(email, password);
   }
 

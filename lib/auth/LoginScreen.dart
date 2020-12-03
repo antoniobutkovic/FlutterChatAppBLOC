@@ -77,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _loginUser(String email, String password) {
+    print("ui $email and $password");
     _authBloc.login(email, password);
   }
 }
