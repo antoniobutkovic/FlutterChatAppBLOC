@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/widgets/RoundedButton.dart';
+import 'package:flutter_chat_app/widgets/rounded_button.dart';
 
-import 'LoginScreen.dart';
-import 'RegistrationScreen.dart';
+import 'login_screen.dart';
+import 'registration_screen.dart';
 
 class AuthScreen extends StatelessWidget {
   static const String id = 'welcome_screen';

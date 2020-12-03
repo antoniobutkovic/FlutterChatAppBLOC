@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/auth/AuthBloc.dart';
-import 'package:flutter_chat_app/widgets/RoundedButton.dart';
-import 'package:flutter_chat_app/widgets/RoundedInputField.dart';
+import 'package:flutter_chat_app/auth/auth_repository.dart';
+import 'package:flutter_chat_app/auth/api_service.dart';
+import 'package:flutter_chat_app/auth/auth_bloc.dart';
+import 'package:flutter_chat_app/widgets/rounded_button.dart';
+import 'package:flutter_chat_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
 
-import 'ApiService.dart';
-import 'AuthRepository.dart';
-
-class RegisterScreenDI extends StatelessWidget {
+class LoginScreenDI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProxyProvider2<AuthRepository, ApiService, AuthBloc>(
@@ -15,18 +14,18 @@ class RegisterScreenDI extends StatelessWidget {
               AuthBloc previous) =>
           previous ?? AuthBloc(repository, service),
       dispose: (dynamic context, AuthBloc bloc) => bloc.dispose(),
-      child: RegistrationScreen(),
+      child: LoginScreen(),
     );
   }
 }
 
-class RegistrationScreen extends StatefulWidget {
-  static const String id = 'registration_screen';
+class LoginScreen extends StatefulWidget {
+  static const String id = 'login_screen';
   @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   String email;
   String password;
   AuthBloc _authBloc;
@@ -53,7 +52,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 email = value;
               },
               keyboardType: TextInputType.emailAddress,
-              color: Colors.redAccent,
+              color: Colors.blueAccent,
             ),
             SizedBox(
               height: 8.0,
@@ -64,20 +63,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 password = value;
               },
               keyboardType: TextInputType.visiblePassword,
-              color: Colors.redAccent,
+              color: Colors.blueAccent,
               isObscured: true,
             ),
             RoundedButton(
-                title: 'Register',
-                color: Colors.redAccent,
-                onPressed: () => _registerUser(email, password)),
+                title: 'Login',
+                color: Colors.blueAccent,
+                onPressed: () => _loginUser(email, password)),
           ],
         ),
       ),
     );
   }
 
-  _registerUser(String email, String password) {
-    _authBloc.register(email, password);
+  _loginUser(String email, String password) {
+    final user = _authBloc.login(email, password);
   }
 }

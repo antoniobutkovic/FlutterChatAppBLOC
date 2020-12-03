@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/auth/AuthScreen.dart';
+import 'package:flutter_chat_app/auth/auth_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = 'splash_screen';

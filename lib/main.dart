@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/providers.dart';
 import 'package:flutter_chat_app/routes.dart';
 import 'package:provider/provider.dart';
-import 'splash/SplashScreen.dart';
+import 'splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
