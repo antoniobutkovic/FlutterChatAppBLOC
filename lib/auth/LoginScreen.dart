@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/AuthRepository.dart';
-import 'package:flutter_chat_app/auth/AuthService.dart';
+import 'package:flutter_chat_app/auth/ApiService.dart';
 import 'package:flutter_chat_app/auth/AuthBloc.dart';
 import 'package:flutter_chat_app/widgets/RoundedButton.dart';
 import 'package:flutter_chat_app/widgets/RoundedInputField.dart';
@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 class LoginScreenDI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProxyProvider2<AuthRepository, AuthService, AuthBloc>(
-      update: (dynamic context, AuthRepository repository, AuthService service,
+    return ProxyProvider2<AuthRepository, ApiService, AuthBloc>(
+      update: (dynamic context, AuthRepository repository, ApiService service,
               AuthBloc previous) =>
           previous ?? AuthBloc(repository, service),
       dispose: (dynamic context, AuthBloc bloc) => bloc.dispose(),
@@ -77,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _loginUser(String email, String password) {
-    print("ui $email and $password");
-    _authBloc.login(email, password);
+    final user = _authBloc.login(email, password);
   }
 }

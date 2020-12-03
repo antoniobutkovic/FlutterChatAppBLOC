@@ -1,14 +1,14 @@
-import 'package:flutter_chat_app/auth/AuthService.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_app/auth/ApiService.dart';
 import 'package:flutter_chat_app/auth/AuthRepository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthService service;
+  ApiService service;
 
   AuthRepositoryImpl(this.service);
 
   @override
-  Future login(String email, String password) async {
-    print("repo $email and $password");
+  Future<UserCredential> login(String email, String password) async {
     return service.login(email, password);
   }
 
