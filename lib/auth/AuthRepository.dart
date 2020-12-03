@@ -1,5 +1,5 @@
 abstract class AuthRepository {
-  Future register();
+  Future register(String email, String password);
 
   Future login(String email, String password);
 }

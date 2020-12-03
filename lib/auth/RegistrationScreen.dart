@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/auth/AuthBloc.dart';
 import 'package:flutter_chat_app/widgets/RoundedButton.dart';
 import 'package:flutter_chat_app/widgets/RoundedInputField.dart';
+import 'package:provider/provider.dart';
+
+import 'ApiService.dart';
+import 'AuthRepository.dart';
+
+class RegisterScreenDI extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ProxyProvider2<AuthRepository, ApiService, AuthBloc>(
+      update: (dynamic context, AuthRepository repository, ApiService service,
+              AuthBloc previous) =>
+          previous ?? AuthBloc(repository, service),
+      dispose: (dynamic context, AuthBloc bloc) => bloc.dispose(),
+      child: RegistrationScreen(),
+    );
+  }
+}
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -11,6 +29,13 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
+  AuthBloc _authBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _authBloc = Provider.of(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +78,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   _registerUser(String email, String password) {
-    print(email + password);
+    _authBloc.register(email, password);
   }
 }

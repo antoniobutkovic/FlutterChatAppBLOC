@@ -13,4 +13,14 @@ class ApiService {
       return null;
     }
   }
+
+  Future<UserCredential> register(String email, String password) async {
+    try {
+      return auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

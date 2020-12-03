@@ -13,7 +13,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future register() {
-    return null;
+  Future register(String email, String password) async {
+    return service.register(email, password);
   }
 }

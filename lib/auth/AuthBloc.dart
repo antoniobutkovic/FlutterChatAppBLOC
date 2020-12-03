@@ -13,6 +13,10 @@ class AuthBloc implements Disposable {
     return repository.login(email, password);
   }
 
+  Future<UserCredential> register(String email, String password) async {
+    return repository.register(email, password);
+  }
+
   @override
   void dispose() {}
 }
