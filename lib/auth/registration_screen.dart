@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/auth_bloc.dart';
+import 'package:flutter_chat_app/utils/api_response.dart';
 import 'package:flutter_chat_app/widgets/rounded_button.dart';
 import 'package:flutter_chat_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
@@ -67,17 +69,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               color: Colors.redAccent,
               isObscured: true,
             ),
-            RoundedButton(
-                title: 'Register',
-                color: Colors.redAccent,
-                onPressed: () => _registerUser(email, password)),
+            StreamBuilder<ApiResponse<UserCredential>>(
+                stream: _authBloc.user,
+                builder: (context,
+                    AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
+                  switch (snapshot.data.status) {
+                    case Status.LOADING:
+                      break;
+                    case Status.COMPLETED:
+                      break;
+                    case Status.ERROR:
+                      break;
+                  }
+                  return RoundedButton(
+                      title: 'Register',
+                      color: Colors.redAccent,
+                      onPressed: () => _authBloc.register(email, password));
+                }),
           ],
         ),
       ),
     );
-  }
-
-  _registerUser(String email, String password) {
-    _authBloc.register(email, password);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/auth_repository.dart';
 import 'package:flutter_chat_app/auth/api_service.dart';
 import 'package:flutter_chat_app/auth/auth_bloc.dart';
+import 'package:flutter_chat_app/utils/api_response.dart';
 import 'package:flutter_chat_app/widgets/rounded_button.dart';
 import 'package:flutter_chat_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
@@ -67,11 +68,17 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.blueAccent,
               isObscured: true,
             ),
-            StreamBuilder<UserCredential>(
+            StreamBuilder<ApiResponse<UserCredential>>(
                 stream: _authBloc.user,
-                builder: (context, AsyncSnapshot<UserCredential> snapshot) {
-                  if (snapshot.hasData) {
-                    print("navigate next");
+                builder: (context,
+                    AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
+                  switch (snapshot.data.status) {
+                    case Status.LOADING:
+                      break;
+                    case Status.COMPLETED:
+                      break;
+                    case Status.ERROR:
+                      break;
                   }
                   return RoundedButton(
                       title: 'Login',

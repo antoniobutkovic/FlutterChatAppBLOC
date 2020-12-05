@@ -1,26 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_app/utils/api_response.dart';
 
 class ApiService {
   FirebaseAuth auth;
 
   ApiService(this.auth);
 
-  Future<UserCredential> login(String email, String password) async {
+  login(String email, String password) async {
     try {
-      return auth.signInWithEmailAndPassword(email: email, password: password);
+      return ApiResponse.completed(
+          auth.signInWithEmailAndPassword(email: email, password: password));
     } catch (e) {
-      print(e);
-      return null;
+      return ApiResponse.error(e.toString());
     }
   }
 
-  Future<UserCredential> register(String email, String password) async {
+  register(String email, String password) async {
     try {
       return auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } catch (e) {
-      print(e);
-      return null;
+      return ApiResponse.error(e.toString());
     }
   }
 }
