@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/auth_repository.dart';
 import 'package:flutter_chat_app/auth/api_service.dart';
@@ -66,17 +67,20 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.blueAccent,
               isObscured: true,
             ),
-            RoundedButton(
-                title: 'Login',
-                color: Colors.blueAccent,
-                onPressed: () => _loginUser(email, password)),
+            StreamBuilder<UserCredential>(
+                stream: _authBloc.user,
+                builder: (context, AsyncSnapshot<UserCredential> snapshot) {
+                  if (snapshot.hasData) {
+                    print("navigate next");
+                  }
+                  return RoundedButton(
+                      title: 'Login',
+                      color: Colors.blueAccent,
+                      onPressed: () => _authBloc.login(email, password));
+                }),
           ],
         ),
       ),
     );
-  }
-
-  _loginUser(String email, String password) {
-    final user = _authBloc.login(email, password);
   }
 }

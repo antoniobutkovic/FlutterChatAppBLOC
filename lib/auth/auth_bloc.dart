@@ -1,22 +1,31 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_app/auth/api_service.dart';
 import 'package:flutter_chat_app/auth/auth_repository.dart';
 import 'package:flutter_chat_app/disposable.dart';
 
 class AuthBloc implements Disposable {
+  AuthBloc(this.repository, this.service);
+
   AuthRepository repository;
   ApiService service;
 
-  AuthBloc(this.repository, this.service);
+  StreamController<UserCredential> _user = StreamController<UserCredential>();
+  Stream<UserCredential> get user => _user.stream;
 
-  Future<UserCredential> login(String email, String password) async {
-    return repository.login(email, password);
+  void login(String email, String password) async {
+    var user = await repository.login(email, password);
+    _user.add(user);
   }
 
-  Future<UserCredential> register(String email, String password) async {
-    return repository.register(email, password);
+  void register(String email, String password) async {
+    var user = await repository.register(email, password);
+    _user.add(user);
   }
 
   @override
-  void dispose() {}
+  void dispose() {
+    _user.close();
+  }
 }
