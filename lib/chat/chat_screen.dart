@@ -62,11 +62,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                final messages = snapshot.data.docs.reversed;
+                final messages = snapshot.data.docs;
                 List<MessageBubble> messageBubbles = [];
                 for (var message in messages) {
                   messageBubbles.add(_chatBloc.mapData(message));
                 }
+                messageBubbles.sort((a, b) => b.time.compareTo(a.time));
                 return Expanded(
                   child: ListView(
                     reverse: true,

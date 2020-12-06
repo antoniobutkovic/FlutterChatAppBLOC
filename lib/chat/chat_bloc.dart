@@ -24,12 +24,10 @@ class ChatBloc implements Disposable {
   MessageBubble mapData(QueryDocumentSnapshot message) {
     String messageText = message.data()['text'];
     String sender = message.data()['sender'];
+    Timestamp time = message.data()['time'];
     String currentUserEmail = repository.getCurrentUser().email;
 
     return MessageBubble(
-      messageText,
-      sender,
-      sender == currentUserEmail,
-    );
+        messageText, sender, sender == currentUserEmail, time.toString());
   }
 }

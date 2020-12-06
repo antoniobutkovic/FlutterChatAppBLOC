@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/chat/Message.dart';
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble(this.messageText, this.sender, this.isCurrentUser);
+  MessageBubble(this.messageText, this.sender, this.isCurrentUser, this.time);
 
   String messageText;
   String sender;
   bool isCurrentUser;
+  String time;
 
   @override
   Widget build(BuildContext context) {
