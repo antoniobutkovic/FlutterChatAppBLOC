@@ -7,7 +7,7 @@ import 'package:flutter_chat_app/widgets/rounded_button.dart';
 import 'package:flutter_chat_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
 
-import 'api_service.dart';
+import '../api/api_service.dart';
 import 'auth_repository.dart';
 
 class RegisterScreenDI extends StatelessWidget {
@@ -79,7 +79,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       case Status.LOADING:
                         return Padding(
                           padding: const EdgeInsets.only(top: 16.0),
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Center(
+                              child: CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.redAccent),
+                          )),
                         );
                       case Status.COMPLETED:
                         WidgetsBinding.instance.addPostFrameCallback((_) {

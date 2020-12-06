@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_chat_app/auth/api_service.dart';
+import 'package:flutter_chat_app/api/api_service.dart';
 import 'package:flutter_chat_app/utils/api_response.dart';
 
 abstract class AuthRepository {

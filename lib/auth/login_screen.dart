@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/auth_repository.dart';
-import 'package:flutter_chat_app/auth/api_service.dart';
+import 'package:flutter_chat_app/api/api_service.dart';
 import 'package:flutter_chat_app/auth/auth_bloc.dart';
 import 'package:flutter_chat_app/chat/chat_screen.dart';
 import 'package:flutter_chat_app/utils/api_response.dart';
