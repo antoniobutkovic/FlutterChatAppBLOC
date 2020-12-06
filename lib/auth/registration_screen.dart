@@ -7,16 +7,14 @@ import 'package:flutter_chat_app/widgets/rounded_button.dart';
 import 'package:flutter_chat_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
 
-import '../api/api_service.dart';
 import 'auth_repository.dart';
 
 class RegisterScreenDI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProxyProvider2<AuthRepository, ApiService, AuthBloc>(
-      update: (dynamic context, AuthRepository repository, ApiService service,
-              AuthBloc previous) =>
-          previous ?? AuthBloc(repository, service),
+    return ProxyProvider<AuthRepository, AuthBloc>(
+      update: (dynamic context, AuthRepository repository, AuthBloc previous) =>
+          previous ?? AuthBloc(repository),
       dispose: (dynamic context, AuthBloc bloc) => bloc.dispose(),
       child: RegistrationScreen(),
     );

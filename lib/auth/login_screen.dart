@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/auth_repository.dart';
-import 'package:flutter_chat_app/api/api_service.dart';
 import 'package:flutter_chat_app/auth/auth_bloc.dart';
 import 'package:flutter_chat_app/chat/chat_screen.dart';
 import 'package:flutter_chat_app/utils/api_response.dart';
@@ -12,10 +11,9 @@ import 'package:provider/provider.dart';
 class LoginScreenDI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProxyProvider2<AuthRepository, ApiService, AuthBloc>(
-      update: (dynamic context, AuthRepository repository, ApiService service,
-              AuthBloc previous) =>
-          previous ?? AuthBloc(repository, service),
+    return ProxyProvider<AuthRepository, AuthBloc>(
+      update: (dynamic context, AuthRepository repository, AuthBloc previous) =>
+          previous ?? AuthBloc(repository),
       dispose: (dynamic context, AuthBloc bloc) => bloc.dispose(),
       child: LoginScreen(),
     );

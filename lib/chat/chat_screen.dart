@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_chat_app/api/api_service.dart';
 import 'package:provider/provider.dart';
 
 import 'chat_bloc.dart';
@@ -9,10 +8,9 @@ import 'chat_repository.dart';
 class ChatScreenDI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProxyProvider2<ChatRepository, ApiService, ChatBloc>(
-      update: (dynamic context, ChatRepository repository, ApiService service,
-              ChatBloc previous) =>
-          previous ?? ChatBloc(repository, service),
+    return ProxyProvider<ChatRepository, ChatBloc>(
+      update: (dynamic context, ChatRepository repository, ChatBloc previous) =>
+          previous ?? ChatBloc(repository),
       dispose: (dynamic context, ChatBloc bloc) => bloc.dispose(),
       child: ChatScreen(),
     );
@@ -29,11 +27,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   ChatBloc _chatBloc;
   String _messageText;
+  TextEditingController _textEditingController;
 
   @override
   void initState() {
     super.initState();
     _chatBloc = Provider.of(context, listen: false);
+    _textEditingController = TextEditingController();
   }
 
   @override
@@ -63,6 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: _textEditingController,
                       onChanged: (value) {
                         _messageText = value;
                       },
@@ -75,7 +76,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _textEditingController.clear();
+                      _chatBloc.sendMessage(_messageText, 'a@net.hr');
+                    },
                     child: Text(
                       'Send',
                       style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/api/api_service.dart';
@@ -14,7 +15,8 @@ List<SingleChildWidget> providers = <SingleChildWidget>[
 ];
 
 List<SingleChildWidget> _independentServices = <SingleChildWidget>[
-  Provider<ApiService>.value(value: ApiService(FirebaseAuth.instance)),
+  Provider<ApiService>.value(
+      value: ApiService(FirebaseAuth.instance, FirebaseFirestore.instance)),
 ];
 
 List<SingleChildWidget> _dependentServices = <SingleChildWidget>[
@@ -25,14 +27,13 @@ List<SingleChildWidget> _dependentServices = <SingleChildWidget>[
     AuthRepository previous,
   ) =>
           previous ?? AuthRepositoryImpl(service)),
-  ProxyProvider2<ApiService, AuthRepositoryImpl, AuthBloc>(
+  ProxyProvider<AuthRepositoryImpl, AuthBloc>(
     update: (
       BuildContext context,
-      ApiService service,
       AuthRepository repository,
       AuthBloc previous,
     ) =>
-        previous ?? AuthBloc(repository, service),
+        previous ?? AuthBloc(repository),
   ),
   ProxyProvider<ApiService, ChatRepositoryImpl>(
       update: (
@@ -41,13 +42,12 @@ List<SingleChildWidget> _dependentServices = <SingleChildWidget>[
     ChatRepository previous,
   ) =>
           previous ?? ChatRepositoryImpl(service)),
-  ProxyProvider2<ApiService, ChatRepositoryImpl, ChatBloc>(
+  ProxyProvider<ChatRepositoryImpl, ChatBloc>(
     update: (
       BuildContext context,
-      ApiService service,
       ChatRepository repository,
       ChatBloc previous,
     ) =>
-        previous ?? ChatBloc(repository, service),
+        previous ?? ChatBloc(repository),
   ),
 ];

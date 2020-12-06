@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_chat_app/utils/api_response.dart';
 
 class ApiService {
   FirebaseAuth auth;
+  FirebaseFirestore firestore;
 
-  ApiService(this.auth);
+  ApiService(this.auth, this.firestore);
 
   Future<UserCredential> login(String email, String password) async {
     return auth.signInWithEmailAndPassword(email: email, password: password);
@@ -13,5 +14,12 @@ class ApiService {
   Future<UserCredential> register(String email, String password) async {
     return auth.createUserWithEmailAndPassword(
         email: email, password: password);
+  }
+
+  sendMessage(String messageText, String sender) {
+    firestore.collection('messages').add({
+      'text': messageText,
+      'sender': auth.currentUser.email,
+    });
   }
 }
