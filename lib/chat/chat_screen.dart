@@ -59,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: LinearProgressIndicator(),
                   );
                 }
                 final messages = snapshot.data.docs;
