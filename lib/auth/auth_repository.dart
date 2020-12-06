@@ -3,9 +3,9 @@ import 'package:flutter_chat_app/auth/api_service.dart';
 import 'package:flutter_chat_app/utils/api_response.dart';
 
 abstract class AuthRepository {
-  Future register(String email, String password);
+  Future<ApiResponse<UserCredential>> register(String email, String password);
 
-  Future login(String email, String password);
+  Future<ApiResponse<UserCredential>> login(String email, String password);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -16,12 +16,22 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<ApiResponse<UserCredential>> login(
       String email, String password) async {
-    return service.login(email, password);
+    try {
+      UserCredential user = await service.login(email, password);
+      return ApiResponse.completed(user);
+    } catch (e) {
+      return ApiResponse.error(e.toString());
+    }
   }
 
   @override
   Future<ApiResponse<UserCredential>> register(
       String email, String password) async {
-    return service.register(email, password);
+    try {
+      UserCredential user = await service.register(email, password);
+      return ApiResponse.completed(user);
+    } catch (e) {
+      return ApiResponse.error(e.toString());
+    }
   }
 }

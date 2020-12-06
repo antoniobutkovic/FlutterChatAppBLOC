@@ -3,9 +3,11 @@ class ApiResponse<T> {
 
   T data;
 
+  bool isLoading;
+
   String message;
 
-  ApiResponse.loading(this.message) : status = Status.LOADING;
+  ApiResponse.loading(this.isLoading) : status = Status.LOADING;
 
   ApiResponse.completed(this.data) : status = Status.COMPLETED;
 

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/auth/auth_bloc.dart';
+import 'package:flutter_chat_app/chat/chat_screen.dart';
 import 'package:flutter_chat_app/utils/api_response.dart';
 import 'package:flutter_chat_app/widgets/rounded_button.dart';
 import 'package:flutter_chat_app/widgets/rounded_input_field.dart';
@@ -29,8 +30,8 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  String email;
-  String password;
+  String _email;
+  String _password;
   AuthBloc _authBloc;
 
   @override
@@ -52,7 +53,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedInputField(
               hint: 'Enter email',
               onChanged: (value) {
-                email = value;
+                _email = value;
               },
               keyboardType: TextInputType.emailAddress,
               color: Colors.redAccent,
@@ -63,7 +64,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedInputField(
               hint: 'Enter password',
               onChanged: (value) {
-                password = value;
+                _password = value;
               },
               keyboardType: TextInputType.visiblePassword,
               color: Colors.redAccent,
@@ -73,18 +74,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 stream: _authBloc.user,
                 builder: (context,
                     AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
-                  switch (snapshot.data.status) {
-                    case Status.LOADING:
-                      break;
-                    case Status.COMPLETED:
-                      break;
-                    case Status.ERROR:
-                      break;
+                  if (snapshot.hasData) {
+                    switch (snapshot.data.status) {
+                      case Status.LOADING:
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      case Status.COMPLETED:
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              ChatScreen.id, (Route<dynamic> route) => false);
+                        });
+                        break;
+                      case Status.ERROR:
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Center(child: Text(snapshot.data.message)),
+                        );
+                        break;
+                    }
                   }
                   return RoundedButton(
                       title: 'Register',
                       color: Colors.redAccent,
-                      onPressed: () => _authBloc.register(email, password));
+                      onPressed: () => _authBloc.register(_email, _password));
                 }),
           ],
         ),

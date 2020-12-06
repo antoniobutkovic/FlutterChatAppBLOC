@@ -17,11 +17,13 @@ class AuthBloc implements Disposable {
   Stream<ApiResponse<UserCredential>> get user => _user.stream;
 
   void login(String email, String password) async {
+    _user.add(ApiResponse.loading(true));
     var user = await repository.login(email, password);
     _user.add(user);
   }
 
   void register(String email, String password) async {
+    _user.add(ApiResponse.loading(true));
     var user = await repository.register(email, password);
     _user.add(user);
   }

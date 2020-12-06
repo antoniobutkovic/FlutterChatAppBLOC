@@ -6,21 +6,12 @@ class ApiService {
 
   ApiService(this.auth);
 
-  login(String email, String password) async {
-    try {
-      return ApiResponse.completed(
-          auth.signInWithEmailAndPassword(email: email, password: password));
-    } catch (e) {
-      return ApiResponse.error(e.toString());
-    }
+  Future<UserCredential> login(String email, String password) async {
+    return auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  register(String email, String password) async {
-    try {
-      return auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-    } catch (e) {
-      return ApiResponse.error(e.toString());
-    }
+  Future<UserCredential> register(String email, String password) async {
+    return auth.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 }
