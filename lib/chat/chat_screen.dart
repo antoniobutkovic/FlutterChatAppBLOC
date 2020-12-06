@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_chat_app/widgets/message_bubble.dart';
 import 'package:provider/provider.dart';
 
 import 'chat_bloc.dart';
@@ -52,6 +54,29 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+              stream: _chatBloc.getMessages(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                final messages = snapshot.data.docs.reversed;
+                List<MessageBubble> messageBubbles = [];
+                for (var message in messages) {
+                  messageBubbles.add(_chatBloc.mapData(message));
+                }
+                return Expanded(
+                  child: ListView(
+                    reverse: true,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                    children: messageBubbles,
+                  ),
+                );
+              },
+            ),
             Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -78,7 +103,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   FlatButton(
                     onPressed: () {
                       _textEditingController.clear();
-                      _chatBloc.sendMessage(_messageText, 'a@net.hr');
+                      _chatBloc.sendMessage(_messageText, '');
                     },
                     child: Text(
                       'Send',
