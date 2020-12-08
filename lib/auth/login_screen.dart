@@ -43,61 +43,68 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomPadding: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            RoundedInputField(
-              hint: 'Enter email',
-              onChanged: (value) {
-                _email = value;
-              },
-              keyboardType: TextInputType.emailAddress,
-              color: Colors.blueAccent,
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                RoundedInputField(
+                  hint: 'Enter email',
+                  onChanged: (value) {
+                    _email = value;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                RoundedInputField(
+                  hint: 'Enter password',
+                  onChanged: (value) {
+                    _password = value;
+                  },
+                  keyboardType: TextInputType.visiblePassword,
+                  color: Colors.blueAccent,
+                  isObscured: true,
+                ),
+                StreamBuilder<ApiResponse<UserCredential>>(
+                    stream: _authBloc.user,
+                    builder: (context,
+                        AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
+                      if (snapshot.hasData) {
+                        switch (snapshot.data.status) {
+                          case Status.LOADING:
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          case Status.COMPLETED:
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  ChatScreen.id,
+                                  (Route<dynamic> route) => false);
+                            });
+                            break;
+                          case Status.ERROR:
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Center(child: Text(snapshot.data.message)),
+                            );
+                            break;
+                        }
+                      }
+                      return RoundedButton(
+                          title: 'Login',
+                          color: Colors.blueAccent,
+                          onPressed: () => _authBloc.login(_email, _password));
+                    }),
+              ],
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            RoundedInputField(
-              hint: 'Enter password',
-              onChanged: (value) {
-                _password = value;
-              },
-              keyboardType: TextInputType.visiblePassword,
-              color: Colors.blueAccent,
-              isObscured: true,
-            ),
-            StreamBuilder<ApiResponse<UserCredential>>(
-                stream: _authBloc.user,
-                builder: (context,
-                    AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
-                  if (snapshot.hasData) {
-                    switch (snapshot.data.status) {
-                      case Status.LOADING:
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      case Status.COMPLETED:
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              ChatScreen.id, (Route<dynamic> route) => false);
-                        });
-                        break;
-                      case Status.ERROR:
-                        return Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Center(child: Text(snapshot.data.message)),
-                        );
-                        break;
-                    }
-                  }
-                  return RoundedButton(
-                      title: 'Login',
-                      color: Colors.blueAccent,
-                      onPressed: () => _authBloc.login(_email, _password));
-                }),
-          ],
+          ),
         ),
       ),
     );

@@ -44,65 +44,73 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       resizeToAvoidBottomPadding: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            RoundedInputField(
-              hint: 'Enter email',
-              onChanged: (value) {
-                _email = value;
-              },
-              keyboardType: TextInputType.emailAddress,
-              color: Colors.redAccent,
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                RoundedInputField(
+                  hint: 'Enter email',
+                  onChanged: (value) {
+                    _email = value;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  color: Colors.redAccent,
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                RoundedInputField(
+                  hint: 'Enter password',
+                  onChanged: (value) {
+                    _password = value;
+                  },
+                  keyboardType: TextInputType.visiblePassword,
+                  color: Colors.redAccent,
+                  isObscured: true,
+                ),
+                StreamBuilder<ApiResponse<UserCredential>>(
+                    stream: _authBloc.user,
+                    builder: (context,
+                        AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
+                      if (snapshot.hasData) {
+                        switch (snapshot.data.status) {
+                          case Status.LOADING:
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Colors.redAccent),
+                              )),
+                            );
+                          case Status.COMPLETED:
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  ChatScreen.id,
+                                  (Route<dynamic> route) => false);
+                            });
+                            break;
+                          case Status.ERROR:
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Center(child: Text(snapshot.data.message)),
+                            );
+                            break;
+                        }
+                      }
+                      return RoundedButton(
+                          title: 'Register',
+                          color: Colors.redAccent,
+                          onPressed: () =>
+                              _authBloc.register(_email, _password));
+                    }),
+              ],
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            RoundedInputField(
-              hint: 'Enter password',
-              onChanged: (value) {
-                _password = value;
-              },
-              keyboardType: TextInputType.visiblePassword,
-              color: Colors.redAccent,
-              isObscured: true,
-            ),
-            StreamBuilder<ApiResponse<UserCredential>>(
-                stream: _authBloc.user,
-                builder: (context,
-                    AsyncSnapshot<ApiResponse<UserCredential>> snapshot) {
-                  if (snapshot.hasData) {
-                    switch (snapshot.data.status) {
-                      case Status.LOADING:
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: Center(
-                              child: CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.redAccent),
-                          )),
-                        );
-                      case Status.COMPLETED:
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              ChatScreen.id, (Route<dynamic> route) => false);
-                        });
-                        break;
-                      case Status.ERROR:
-                        return Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Center(child: Text(snapshot.data.message)),
-                        );
-                        break;
-                    }
-                  }
-                  return RoundedButton(
-                      title: 'Register',
-                      color: Colors.redAccent,
-                      onPressed: () => _authBloc.register(_email, _password));
-                }),
-          ],
+          ),
         ),
       ),
     );
