@@ -11,7 +11,7 @@ class AuthBloc implements Disposable {
   AuthRepository repository;
 
   StreamController<ApiResponse<UserCredential>> _user =
-      StreamController<ApiResponse<UserCredential>>();
+      StreamController<ApiResponse<UserCredential>>.broadcast();
   Stream<ApiResponse<UserCredential>> get user => _user.stream;
 
   void login(String email, String password) async {
