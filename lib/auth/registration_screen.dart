@@ -95,10 +95,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             });
                             break;
                           case Status.ERROR:
-                            return Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Center(child: Text(snapshot.data.message)),
-                            );
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              showErrorDialog(snapshot.data.message);
+                            });
                             break;
                         }
                       }
@@ -113,6 +112,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void showErrorDialog(String text) {
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text('Error'),
+      content: Text(text),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
